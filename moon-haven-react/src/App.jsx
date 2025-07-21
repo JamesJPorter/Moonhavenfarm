@@ -1,35 +1,54 @@
+import React from 'react';
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+// Header Component
+function Header() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <header className="header">
+      <div className="logo">Moon Haven Farms</div>
+      <nav>
+        <ul className="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Products</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+  );
 }
 
-export default App
+// Hero Component (Main Section)
+function Hero() {
+  return (
+    <main className="hero">
+      <div className="hero-content">
+        <h1>Moon Haven Farms</h1>
+      </div>
+    </main>
+  );
+}
+
+// Footer Component
+function Footer() {
+  const currentYear = new Date().getFullYear();
+  return (
+    <footer className="footer">
+      <p>&copy; {currentYear} Moon Haven Farms. All Rights Reserved.</p>
+    </footer>
+  );
+}
+
+// Main App Component that assembles the page
+function App() {
+  return (
+    <>
+      <Header />
+      <Hero />
+      <Footer />
+    </>
+  );
+}
+
+export default App;
