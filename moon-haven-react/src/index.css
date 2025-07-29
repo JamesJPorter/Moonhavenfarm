@@ -11,6 +11,16 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --night: #051607ff;
+  --dark-green: #152618ff;
+  --dark-green-2: #253628ff;
+  --feldgrau: #455446ff;
+  --reseda-green: #647263ff;
+  --cambridge-blue: #93a08cff;
+  --ash-gray: #bbc2b4ff;
+  --timberwolf: #d5d9d2ff;
+  --baby-powder: #edf0ebff;
+  --seasalt: #fafafaff;
 }
 
 a {
@@ -24,8 +34,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
