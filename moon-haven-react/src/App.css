@@ -94,6 +94,58 @@ body {
   margin-left: 7rem;
 }
 
+/* Gallery Section Styles */
+.gallery-section {
+  padding: 4rem 5%;
+  background-color: var(--ash-gray);
+  color: #333;
+  text-align: center;
+}
+
+.gallery-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.gallery-row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  text-align: left;
+}
+
+.gallery-row.row-reverse {
+  flex-direction: row-reverse;
+}
+
+.gallery-image, .gallery-text {
+  flex: 1; /* Each column takes up half the space */
+}
+
+.gallery-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.gallery-text h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--seasalt);
+}
+
+.gallery-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: white
+}
+
+#gallery-header {
+  color: var(--feldgrau);
+}
+
 /* Footer Styles */
 .footer {
   text-align: center;

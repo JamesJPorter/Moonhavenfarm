@@ -48,6 +48,44 @@ function Hero() {
   );
 }
 
+// New Gallery Component
+function Gallery() {
+  return (
+    <section className="gallery-section">
+      <h2 id="gallery-header">Our Farm & Process</h2>
+      <div className="gallery-row">
+        <div className="gallery-image">
+          <img src="/garden.jpg" alt="Fresh produce from the farm" />
+        </div>
+        <div className="gallery-text">
+          <h3 class="gallery-heading">Sustainably Grown</h3>
+          <p>Our commitment to sustainable agriculture means we grow our produce without synthetic pesticides, ensuring healthy soil and even healthier food for your family.</p>
+        </div>
+      </div>
+      
+      <div className="gallery-row row-reverse">
+        <div className="gallery-image">
+          <img src="/little_tujunga.jpg" alt="Farm animals in a pasture" />
+        </div>
+        <div className="gallery-text">
+          <h3 class="gallery-heading">On an Ethical Farming Journey</h3>
+          <p>We believe in compassionate farming. Our animals are raised in open pastures with plenty of space to roam, leading to high-quality, ethically produced meat and dairy.</p>
+        </div>
+      </div>
+
+      <div className="gallery-row">
+        <div className="gallery-image">
+          <img src="/stunt_road.jpg" alt="A local farmers market stall" />
+        </div>
+        <div className="gallery-text">
+          <h3 class="gallery-heading">Beauty and Health Go Hand in Hand</h3>
+          <p>We bring the freshest produce directly to you through our community-supported agriculture (CSA) program and local farmers' market stalls. Taste the difference!</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // Footer Component
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -64,6 +102,7 @@ function App() {
     <>
       <Header />
       <Hero />
+      <Gallery />
       <Footer />
     </>
   );
