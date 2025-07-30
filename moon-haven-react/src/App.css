@@ -166,6 +166,11 @@ body {
     display: block;
   }
 
+  .gallery-row, .gallery-row.row-reverse {
+    Flex-direction: column;
+    text-align: center;
+  }
+
   /* Hide the desktop navigation links and prepare for mobile view */
   .nav-links {
     display: none;
