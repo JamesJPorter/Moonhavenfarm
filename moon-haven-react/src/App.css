@@ -21,6 +21,14 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
+  /* Add transition for a smooth effect */
+  transition: background-color 0.4s ease;
+}
+
+/* New class for when the page is scrolled */
+.header-scrolled {
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .logo {
@@ -79,10 +87,12 @@ body {
   text-align: center;
   min-height: 85vh; /* Takes up most of the viewport height */
   color: white;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/background.png');
-  background-size: contain;
+  /* background-image is now handled by inline styles in App.jsx */
+  background-size: cover; /* Use cover for better responsive scaling */
   background-position: center;
   background-repeat: no-repeat;
+  /* Add transition for a smooth background change */
+  transition: background-image 0.5s ease-in-out;
 }
 
 .hero-content h1 {
@@ -100,6 +110,10 @@ body {
   background-color: var(--ash-gray);
   color: #333;
   text-align: center;
+}
+
+#gallery-header {
+  color: var(--feldgrau);
 }
 
 .gallery-section h2 {
@@ -142,10 +156,6 @@ body {
   color: white
 }
 
-#gallery-header {
-  color: var(--feldgrau);
-}
-
 /* Footer Styles */
 .footer {
   text-align: center;
@@ -164,11 +174,6 @@ body {
   /* Show the hamburger menu */
   .hamburger {
     display: block;
-  }
-
-  .gallery-row, .gallery-row.row-reverse {
-    Flex-direction: column;
-    text-align: center;
   }
 
   /* Hide the desktop navigation links and prepare for mobile view */
@@ -219,5 +224,11 @@ body {
     font-size: 2.5rem; /* Make font a bit smaller on mobile */
     transform: rotate(0deg); /* Straighten text on mobile */
     margin-left: 0; /* Remove the desktop margin */
+  }
+
+  /* Adjust gallery for mobile */
+  .gallery-row, .gallery-row.row-reverse {
+    flex-direction: column;
+    text-align: center;
   }
 }
