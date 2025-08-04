@@ -1,31 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
-// Header Component with scroll effect
+// Custom Hook: useIntersectionObserver
+// This hook tells us if a component is visible on the screen or not.
+function useIntersectionObserver(options) {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      // If the element is visible, update the state.
+      // We also unobserve it so the animation only happens once.
+      if (entry.isIntersecting) {
+        setIsIntersecting(true);
+        observer.unobserve(entry.target);
+      }
+    }, options);
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref, options]);
+
+  return [ref, isIntersecting];
+}
+
+
+// Header Component (No changes needed here)
 function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Set state based on scroll position (true if scrolled more than 50px)
       setIsScrolled(window.scrollY > 50);
     };
-
-    // Add event listener when the component mounts
     window.addEventListener('scroll', handleScroll);
-
-    // Remove event listener when the component unmounts for cleanup
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []); // Empty array ensures this effect runs only once
+  }, []);
 
   return (
-    // Add 'header-scrolled' class when isScrolled is true
     <header className={`header ${isScrolled ? 'header-scrolled' : ''}`}>
       <div className="logo">Moon Haven Farms</div>
-      
       <nav className={isNavOpen ? 'nav-open' : ''}>
         <ul className="nav-links">
           <li><a href="#">Home</a></li>
@@ -35,7 +59,6 @@ function Header() {
           <li><a href="#">Contact</a></li>
         </ul>
       </nav>
-
       <button 
         className="hamburger" 
         onClick={() => setIsNavOpen(!isNavOpen)}
@@ -49,32 +72,20 @@ function Header() {
   );
 }
 
-// Hero Component with scroll effect
+// Hero Component (No changes needed here)
 function Hero() {
-  const [bgImage, setBgImage] = useState('/background.png'); // Default image
-
+  const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setBgImage('/Sunset-1.jpg'); // Change to sunset image on scroll
-      } else {
-        setBgImage('/background.png'); // Revert to default when at the top
-      }
+      setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
   return (
-    // The background image is now set dynamically via inline styles
-    <main 
-      className="hero" 
-      style={{ 
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${bgImage})` 
-      }}
-    >
+    <main className={`hero ${isScrolled ? 'hero-scrolled' : ''}`}>
       <div className="hero-content">
         <h1>Coming Soon!</h1>
       </div>
@@ -82,12 +93,24 @@ function Hero() {
   );
 }
 
-// Gallery Component
+// Gallery Component with Fade-in effect
 function Gallery() {
+  // Set up observer options
+  const observerOptions = {
+    threshold: 0.1, // Trigger when 10% of the element is visible
+  };
+
+  // Create a ref and observer for each gallery row
+  const [ref1, isVisible1] = useIntersectionObserver(observerOptions);
+  const [ref2, isVisible2] = useIntersectionObserver(observerOptions);
+  const [ref3, isVisible3] = useIntersectionObserver(observerOptions);
+
   return (
     <section className="gallery-section">
       <h2 id="gallery-header">Our Farm & Process</h2>
-      <div className="gallery-row">
+      
+      {/* Assign the ref and conditionally add the 'visible' class */}
+      <div ref={ref1} className={`gallery-row ${isVisible1 ? 'visible' : ''}`}>
         <div className="gallery-image">
           <img src="/garden.jpg" alt="Fresh produce from the farm" />
         </div>
@@ -97,7 +120,7 @@ function Gallery() {
         </div>
       </div>
       
-      <div className="gallery-row row-reverse">
+      <div ref={ref2} className={`gallery-row row-reverse ${isVisible2 ? 'visible' : ''}`}>
         <div className="gallery-image">
           <img src="/little_tujunga.jpg" alt="Farm animals in a pasture" />
         </div>
@@ -107,7 +130,7 @@ function Gallery() {
         </div>
       </div>
 
-      <div className="gallery-row">
+      <div ref={ref3} className={`gallery-row ${isVisible3 ? 'visible' : ''}`}>
         <div className="gallery-image">
           <img src="/stunt_road.jpg" alt="A local farmers market stall" />
         </div>
@@ -121,7 +144,7 @@ function Gallery() {
 }
 
 
-// Footer Component
+// Footer Component (No changes needed)
 function Footer() {
   const currentYear = new Date().getFullYear();
   return (
@@ -131,7 +154,7 @@ function Footer() {
   );
 }
 
-// Main App Component that assembles the page
+// Main App Component (No changes needed)
 function App() {
   return (
     <>

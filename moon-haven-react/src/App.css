@@ -79,37 +79,75 @@ body {
 }
 
 
-/* Hero Section Styles */
+/* Hero Section Styles - REVERSED FADE-OUT LOGIC */
 .hero {
+  position: relative; /* Needed for the pseudo-elements */
   display: flex;
   justify-content: flex-start;
   align-items: center;
   text-align: center;
-  min-height: 85vh; /* Takes up most of the viewport height */
+  min-height: 85vh;
   color: white;
-  /* background-image is now handled by inline styles in App.jsx */
-  background-size: cover; /* Use cover for better responsive scaling */
-  background-position: center;
-  background-repeat: no-repeat;
-  /* Add transition for a smooth background change */
-  transition: background-image 0.5s ease-in-out;
+  /* This creates a new stacking context, which is the key to the fix. */
+  isolation: isolate; 
 }
 
+/* This is the BOTTOM layer (the sunset image) - it's always here */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/Sunset-1.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
+/* This is the TOP layer (the default image) - THIS is the one that fades */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/background.png');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  
+  /* It starts visible and has the transition */
+  opacity: 1;
+  transition: opacity 0.75s ease-in-out;
+}
+
+/* When scrolled, fade OUT the top layer to reveal the one underneath */
+.hero.hero-scrolled::after {
+  opacity: 0;
+}
+
+
 .hero-content h1 {
+  /* The h1 will now correctly sit on top of the pseudo-elements */
   font-size: 3rem;
   font-weight: bold;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
   transform: rotate(330deg);
-  color: var(--reseda-green); /* Make sure this variable is defined in index.css */
+  color: var(--reseda-green);
   margin-left: 7rem;
 }
 
+/* Gallery Section Styles */
 /* Gallery Section Styles */
 .gallery-section {
   padding: 4rem 5%;
   background-color: var(--ash-gray);
   color: #333;
   text-align: center;
+  overflow-x: hidden; /* Prevents horizontal scrollbar during animation */
 }
 
 #gallery-header {
@@ -127,10 +165,22 @@ body {
   gap: 2rem;
   margin-bottom: 4rem;
   text-align: left;
+  
+  /* STYLES FOR FADE-IN ANIMATION */
+  opacity: 0; /* Start invisible */
+  transform: translateX(-30px); /* Start slightly to the left */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .gallery-row.row-reverse {
   flex-direction: row-reverse;
+  transform: translateX(30px); /* Start slightly to the right */
+}
+
+/* This class is added by React when the element is on screen */
+.gallery-row.visible {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .gallery-image, .gallery-text {
