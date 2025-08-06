@@ -32,7 +32,7 @@ function useIntersectionObserver(options) {
 }
 
 
-// Header Component (No changes needed here)
+// Header Component
 function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -49,12 +49,26 @@ function Header() {
 
   return (
     <header className={`header ${isScrolled ? 'header-scrolled' : ''}`}>
-      <div className="logo">Moon Haven Farms</div>
+      {/* --- MODIFIED --- */}
+      <div className="logo">
+        <img 
+          src="/background.png" 
+          alt="Farm landscape icon" 
+          className={`logo-image ${isScrolled ? 'logo-image-hidden' : ''}`}
+        />
+        <span>Moon Haven Farms</span>
+      </div>
+      {/* --- END MODIFICATION --- */}
+
       <nav className={isNavOpen ? 'nav-open' : ''}>
         <ul className="nav-links">
           <li><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
-          <li><a href="#">Education</a></li>
+          <li><a href="#">Events</a></li>
+          <ul>
+            <li>Farm to Table</li>
+            <li>Private Tours</li>
+          </ul>
           <li><a href="#">Products</a></li>
           <li><a href="#">Contact</a></li>
         </ul>
@@ -87,7 +101,9 @@ function Hero() {
   return (
     <main className={`hero ${isScrolled ? 'hero-scrolled' : ''}`}>
       <div className="hero-content">
-        <h1>Coming Soon!</h1>
+        <h1>Sustainable Living, Naturally Grown.</h1>
+        <p>From our farm to your family.</p>
+        <p>Fallbrook, CA</p>
       </div>
     </main>
   );
@@ -154,15 +170,16 @@ function Footer() {
   );
 }
 
-// Main App Component (No changes needed)
+// Main App Component
 function App() {
   return (
-    <>
+    // We need a wrapper div to serve as a positioning context
+    <div className="App">
       <Header />
       <Hero />
       <Gallery />
       <Footer />
-    </>
+    </div>
   );
 }
 

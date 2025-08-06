@@ -1,3 +1,9 @@
+/* --- ADDED --- */
+/* This new class on our main wrapper enables positioning */
+.App {
+  position: relative;
+}
+
 /* Basic Reset and Global Styles */
 body {
   margin: 0;
@@ -6,7 +12,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #292929;
   justify-content: center;
 }
 
@@ -16,25 +21,56 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 5%;
-  background-color: var(--cambridge-blue); /* Make sure this variable is defined in index.css */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* The initial background is now transparent to see the hero behind it */
+  background-color: transparent; 
+  box-shadow: none; /* Shadow removed from initial state */
   position: sticky;
   top: 0;
   z-index: 1000;
-  /* Add transition for a smooth effect */
   transition: background-color 0.4s ease;
 }
 
-/* New class for when the page is scrolled */
+/* --- ADDED STYLES --- */
+
+/* Make the logo container flexible to align the image and text */
+.logo {
+  display: flex;
+  align-items: center;
+  transition: transform 0.4s ease; /* For smooth movement */
+}
+
+/* Styles for the new image in the header */
+.logo-image {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%; /* Makes the image circular */
+  object-fit: cover;    /* Ensures the image fills the circle nicely */
+  margin-right: 12px;
+  
+  /* Prepare for the transition */
+  opacity: 1;
+  transition: opacity 0.4s ease, width 0.4s ease, margin-right 0.4s ease;
+}
+
+/* This class is applied on scroll to hide the image */
+.logo-image.logo-image-hidden {
+  opacity: 0;
+  width: 0;
+  margin-right: 0; /* Collapse the margin to slide the text over */
+}
+
+
+/* --- MODIFIED --- */
+/* The scrolled class now adds the background color back */
 .header-scrolled {
-  background-color: transparent;
-  box-shadow: none;
+  background-color: var(--cambridge-blue); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--seasalt); /* Make sure this variable is defined in index.css */
+  color: var(--seasalt);
 }
 
 .nav-links {
@@ -50,7 +86,7 @@ body {
 
 .nav-links a {
   text-decoration: none;
-  color: #333;
+  color: white;
   font-weight: 500;
   transition: color 0.3s ease;
 }
@@ -59,14 +95,13 @@ body {
   color: #2c5b3b;
 }
 
-/* Hamburger Menu - Hidden on Desktop */
 .hamburger {
   display: none;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 1001; /* Ensures it's above the nav */
+  z-index: 1001;
 }
 
 .hamburger .bar {
@@ -79,35 +114,28 @@ body {
 }
 
 
-/* Hero Section Styles - REVERSED FADE-OUT LOGIC */
+/* --- MODIFIED --- */
+/* Hero Section Styles - Now a full-page background */
 .hero {
-  position: relative; /* Needed for the pseudo-elements */
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  text-align: center;
-  min-height: 85vh;
-  color: white;
-  /* This creates a new stacking context, which is the key to the fix. */
-  isolation: isolate; 
-}
-
-/* This is the BOTTOM layer (the sunset image) - it's always here */
-.hero::before {
-  content: '';
+  /* This pulls the hero out of the document flow */
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/Sunset-1.jpg');
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
+  height: 100vh; /* Make it full viewport height */
+  z-index: -1; /* Place it behind all other content */
+  
+  /* These are for the content inside, not critical for positioning */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  isolation: isolate;
 }
 
-/* This is the TOP layer (the default image) - THIS is the one that fades */
-.hero::after {
+/* This is the BOTTOM layer (the sunset image) */
+/* .hero::before {
   content: '';
   position: absolute;
   top: 0;
@@ -118,36 +146,64 @@ body {
   background-size: cover;
   background-position: center;
   z-index: -1;
+} */
+
+/* This is the TOP layer (the default image) - THIS is the one that fades */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/pepper-fence.jpeg');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
   
-  /* It starts visible and has the transition */
   opacity: 1;
   transition: opacity 0.75s ease-in-out;
 }
 
-/* When scrolled, fade OUT the top layer to reveal the one underneath */
-.hero.hero-scrolled::after {
+/* When scrolled, fade OUT the top layer */
+/* .hero.hero-scrolled::after {
   opacity: 0;
-}
+} */
 
 
+/* This style is now updated for a centered, straight headline */
 .hero-content h1 {
-  /* The h1 will now correctly sit on top of the pseudo-elements */
-  font-size: 3rem;
+  font-size: 4rem; /* Adjusted for impact */
   font-weight: bold;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-  transform: rotate(330deg);
-  color: var(--reseda-green);
-  margin-left: 7rem;
+  color: var(--seasalt); /* Changed for better contrast */
+  margin: 0; /* Removed old margins */
+  padding: 0 1rem; /* Adds a little space on mobile */
+  /* The rotation has been removed */
 }
 
-/* Gallery Section Styles */
+/* Styles for the new sub-headline */
+.hero-content p {
+  font-size: 1.5rem;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+  margin-top: 1rem;
+}
+
+
+
+/* --- MODIFIED --- */
 /* Gallery Section Styles */
 .gallery-section {
+  /* This pushes the gallery down to start AFTER the hero section */
+  margin-top: 100vh; 
   padding: 4rem 5%;
   background-color: var(--ash-gray);
   color: #333;
   text-align: center;
-  overflow-x: hidden; /* Prevents horizontal scrollbar during animation */
+  overflow-x: hidden;
+  /* Ensure it has a position so it sits on top of the absolute hero */
+  position: relative; 
 }
 
 #gallery-header {
@@ -166,25 +222,23 @@ body {
   margin-bottom: 4rem;
   text-align: left;
   
-  /* STYLES FOR FADE-IN ANIMATION */
-  opacity: 0; /* Start invisible */
-  transform: translateX(-30px); /* Start slightly to the left */
+  opacity: 0;
+  transform: translateX(-30px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .gallery-row.row-reverse {
   flex-direction: row-reverse;
-  transform: translateX(30px); /* Start slightly to the right */
+  transform: translateX(30px);
 }
 
-/* This class is added by React when the element is on screen */
 .gallery-row.visible {
   opacity: 1;
   transform: translateX(0);
 }
 
 .gallery-image, .gallery-text {
-  flex: 1; /* Each column takes up half the space */
+  flex: 1;
 }
 
 .gallery-image img {
@@ -212,21 +266,17 @@ body {
   padding: 1.5rem;
   background-color: #333;
   color: white;
+  /* Also needs a position to ensure it's on top */
+  position: relative;
 }
 
-
 /* =================================
-   RESPONSIVE STYLES (MEDIA QUERIES)
-   ================================= */
-
-/* For tablets and mobile phones */
+    RESPONSIVE STYLES (MEDIA QUERIES)
+    ================================= */
 @media (max-width: 768px) {
-  /* Show the hamburger menu */
   .hamburger {
     display: block;
   }
-
-  /* Hide the desktop navigation links and prepare for mobile view */
   .nav-links {
     display: none;
     position: absolute;
@@ -239,22 +289,16 @@ body {
     justify-content: center;
     align-items: center;
   }
-
-  /* When the nav is open, show the links */
   .nav-open .nav-links {
     display: flex;
   }
-
   .nav-links li {
     margin: 2rem 0;
   }
-
   .nav-links a {
     font-size: 1.5rem;
     color: #333;
   }
-
-  /* Animate hamburger to an 'X' when menu is open */
   .nav-open .hamburger .bar:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
@@ -264,19 +308,16 @@ body {
   .nav-open .hamburger .bar:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
   }
-
-  /* Adjust hero section for mobile */
   .hero {
-    justify-content: center; /* Center the text on mobile */
+    justify-content: center;
   }
-
   .hero-content h1 {
     font-size: 2.5rem; /* Make font a bit smaller on mobile */
-    transform: rotate(0deg); /* Straighten text on mobile */
-    margin-left: 0; /* Remove the desktop margin */
   }
 
-  /* Adjust gallery for mobile */
+  .hero-content p {
+    font-size: 1.2rem;
+  }
   .gallery-row, .gallery-row.row-reverse {
     flex-direction: column;
     text-align: center;
