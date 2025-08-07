@@ -17,17 +17,20 @@ body {
 
 /* Header Styles */
 .header {
+  /* --- MODIFIED --- */
+  position: fixed;
+  top: 0;
+  left: 0; /* Ensures it's aligned to the left edge */
+  width: 100%;
+  box-sizing: border-box; /* This is the key fix */
+  
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 1rem 5%;
-  /* The initial background is now transparent to see the hero behind it */
-  background-color: transparent; 
-  box-shadow: none; /* Shadow removed from initial state */
-  position: sticky;
-  top: 0;
   z-index: 1000;
   transition: background-color 0.4s ease;
+  background-color: transparent; /* Keep initial state transparent */
+  box-shadow: none;
 }
 
 /* --- ADDED STYLES --- */
@@ -37,6 +40,7 @@ body {
   display: flex;
   align-items: center;
   transition: transform 0.4s ease; /* For smooth movement */
+  margin-right: auto;
 }
 
 /* Styles for the new image in the header */
@@ -94,6 +98,92 @@ body {
 .nav-links a:hover {
   color: #2c5b3b;
 }
+/* --- Styles for the Dropdown Menu --- */
+
+/* The parent list item needs to be a positioning context */
+.nav-item-dropdown {
+  position: relative;
+}
+
+/* The dropdown menu itself */
+/* The dropdown menu itself */
+.dropdown-menu {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: none;
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+  border-radius: 8px;
+  width: max-content;
+  
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateX(-50%) translateY(10px);
+  
+  text-align: center;
+}
+
+/* Show the dropdown menu when hovering over the parent list item */
+.nav-item-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Styling for the links inside the dropdown */
+.dropdown-menu li a {
+  display: flex;             
+  justify-content: center;    
+
+  padding: 0.75rem 1.5rem;
+  color: white;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f5f5f5;
+  color: #2c5b3b;
+}
+
+
+/* --- Enhanced Hover Effect for Main Nav Links --- */
+
+/* Remove the default hover color change from the main links */
+.nav-links > li > a {
+  position: relative;
+  text-decoration: none;
+  color: white; /* Or your desired color */
+}
+
+/* The "Events" link shouldn't have the underline effect */
+.nav-link-no-hover:hover {
+  color: white; /* Keeps color the same */
+}
+
+/* Create the underline effect using the ::after pseudo-element */
+.nav-links > li > a:not(.nav-link-no-hover)::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--fern, #649c6a); /* Use your fern variable or a fallback */
+  transition: width 0.3s ease;
+}
+
+/* Expand the underline on hover */
+.nav-links > li > a:not(.nav-link-no-hover):hover::after {
+  width: 100%;
+}
 
 .hamburger {
   display: none;
@@ -114,61 +204,28 @@ body {
 }
 
 
-/* --- MODIFIED --- */
-/* Hero Section Styles - Now a full-page background */
+/* Hero Section Styles (Updated) */
 .hero {
-  /* This pulls the hero out of the document flow */
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh; /* Make it full viewport height */
-  z-index: -1; /* Place it behind all other content */
+  height: 100vh;
+
+  /* --- MODIFIED --- */
+  /* This dark color will act as a fallback if the image is broken */
+  background-color: #2c3e50; 
+  background-image: url('/pepper-fence.jpeg');
+  background-size: cover;
+  background-position: center;
   
-  /* These are for the content inside, not critical for positioning */
+  /* Flex properties for centering the text */
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: white;
-  isolation: isolate;
 }
-
-/* This is the BOTTOM layer (the sunset image) */
-/* .hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/background.png');
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-} */
-
-/* This is the TOP layer (the default image) - THIS is the one that fades */
-.hero::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/pepper-fence.jpeg');
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-  
-  opacity: 1;
-  transition: opacity 0.75s ease-in-out;
-}
-
-/* When scrolled, fade OUT the top layer */
-/* .hero.hero-scrolled::after {
-  opacity: 0;
-} */
 
 
 /* This style is now updated for a centered, straight headline */
@@ -192,22 +249,19 @@ body {
 
 
 
-/* --- MODIFIED --- */
 /* Gallery Section Styles */
 .gallery-section {
-  /* This pushes the gallery down to start AFTER the hero section */
-  margin-top: 100vh; 
   padding: 4rem 5%;
   background-color: var(--ash-gray);
   color: #333;
   text-align: center;
-  overflow-x: hidden;
   /* Ensure it has a position so it sits on top of the absolute hero */
   position: relative; 
 }
 
-#gallery-header {
-  color: var(--feldgrau);
+.gallery-header {
+  color: var(--fern);
+  margin-top: 0;
 }
 
 .gallery-section h2 {
@@ -225,6 +279,13 @@ body {
   opacity: 0;
   transform: translateX(-30px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* A more polished version */
+.gallery-row:nth-child(even) {
+  background-color: var(--dark-green);
+  padding: 2rem; /* Adds space inside the colored box */
+  border-radius: 12px; /* Rounds the corners */
 }
 
 .gallery-row.row-reverse {

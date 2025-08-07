@@ -58,18 +58,25 @@ function Header() {
         />
         <span>Moon Haven Farms</span>
       </div>
-      {/* --- END MODIFICATION --- */}
 
       <nav className={isNavOpen ? 'nav-open' : ''}>
         <ul className="nav-links">
           <li><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
-          <li><a href="#">Events</a></li>
-          <ul>
-            <li>Farm to Table</li>
-            <li>Private Tours</li>
-          </ul>
-          <li><a href="#">Products</a></li>
+          <li><a href="#">Education</a></li>
+          
+          {/* --- MODIFIED --- */}
+          {/* This is now a dropdown menu container */}
+          <li className="nav-item-dropdown">
+            <a href="#" className="nav-link-no-hover">Events</a>
+            {/* This is the hidden dropdown menu */}
+            <ul className="dropdown-menu">
+              <li><a href="#">Farm to Table</a></li>
+              <li><a href="#">Private Tours</a></li>
+            </ul>
+          </li>
+          {/* --- END MODIFICATION --- */}
+
           <li><a href="#">Contact</a></li>
         </ul>
       </nav>
@@ -86,20 +93,12 @@ function Header() {
   );
 }
 
-// Hero Component (No changes needed here)
+// Hero Component (Updated)
 function Hero() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  // The isScrolled state and useEffect have been removed.
   return (
-    <main className={`hero ${isScrolled ? 'hero-scrolled' : ''}`}>
+    // The className no longer needs to change on scroll.
+    <main className="hero">
       <div className="hero-content">
         <h1>Sustainable Living, Naturally Grown.</h1>
         <p>From our farm to your family.</p>

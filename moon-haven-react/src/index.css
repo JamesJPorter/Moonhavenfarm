@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: var(--hunter-green);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -21,6 +21,11 @@
   --timberwolf: #d5d9d2ff;
   --baby-powder: #edf0ebff;
   --seasalt: #fafafaff;
+  --dark-green: #132a13ff;
+--hunter-green: #31572cff;
+--fern-green: #4f772dff;
+--moss-green: #90a955ff;
+--mindaro: #ecf39eff;
 }
 
 a {
